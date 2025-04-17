@@ -9,7 +9,6 @@ Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 #define LOGO_HEIGHT 16 // Removed semicolon
 #define LOGO_WIDTH 16 // Removed semicolon
 DHT11 dht11g(2); 
-
 extern volatile unsigned long timer0_millis;
 
 
@@ -21,7 +20,7 @@ void maindisplay(int temperature,int humidity,int format,int editmode,int editse
 if (editmode) display.print("----# EDIT MENU #----");
 else display.print("--# CLOCK DISPLAY #--");
   //satır 2:
-display.print("\n");
+display.print("\n\n");
 
   //satır 3:
   display.print("Time: ");
@@ -140,7 +139,7 @@ else {
         else display.print("s #-----\n");}
 
     if (editmode) {if (editsection==25) display.print(">ok.\n");
-   else display.print(" ok?\n");}display.print(timer0_millis);
+   else display.print(" ok?\n");}
   display.display();
   }
 
@@ -154,7 +153,7 @@ else {
   int alarms[]={00000,00000,00000,00000,00000,00000,00000}; // OHHMM ON/OFF, HOUR, MINUTE
 
 void setup() {
-  dht11g.setDelay(10);
+  dht11g.setDelay(200);
   pinMode(11,OUTPUT); //buzzer pin
   pinMode(10,INPUT); //sol butonpin
   pinMode(9,INPUT); //sağ buton
@@ -260,7 +259,7 @@ void loop() {
   }
   butonl=digitalRead(10);butonr=digitalRead(9);
   maindisplay(temperature,humidity,format,editmode,editsection,alarms);
-  if (timer0_millis%500<65) dht11g.readTemperatureHumidity(temperature, humidity);
+  if (timer0_millis%3000<400 and timer0_millis%3000>290 ) dht11g.readTemperatureHumidity(temperature, humidity);
 
   if (timer0_millis>1209600000UL) timer0_millis = timer0_millis - 1209600000UL;
 }
