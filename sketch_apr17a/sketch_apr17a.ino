@@ -8,7 +8,8 @@
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 #define LOGO_HEIGHT 16 // Removed semicolon
 #define LOGO_WIDTH 16 // Removed semicolon
-DHT11 dht11(2);
+DHT11 dht11g(2); 
+
 extern volatile unsigned long timer0_millis;
 
 
@@ -116,35 +117,33 @@ else {
 
 // satır 7, 8:
 //(3<editsection and editsection<11 and editmode and timer0_millis%2000>1000) display.print("--");
-  int a[]={alarms[0]/10000,alarms[1]/10000,alarms[2]/10000,alarms[3]/10000,alarms[4]/10000,alarms[5]/10000,alarms[6]/10000};
   if (editsection==4 and editmode and timer0_millis%2000>1000) display.print("-----# -");
-  else {if (a[0]) display.print("-----# M");
+  else {if (alarms[0]/10000) display.print("-----# M");
         else display.print("-----# m");}
   if (editsection==5 and editmode and timer0_millis%2000>1000) display.print("-");
-  else {if (a[1]) display.print("T");
+  else {if (alarms[1]/10000) display.print("T");
         else display.print("t");}
   if (editsection==6 and editmode and timer0_millis%2000>1000) display.print("-");
-  else {if (a[2]) display.print("W");
+  else {if (alarms[2]/10000) display.print("W");
         else display.print("w");}
   if (editsection==7 and editmode and timer0_millis%2000>1000) display.print("-");
-  else {if (a[3]) display.print("T");
+  else {if (alarms[3]/10000) display.print("T");
         else display.print("t");}
   if (editsection==8 and editmode and timer0_millis%2000>1000) display.print("-");
-  else {if (a[4]) display.print("F");
+  else {if (alarms[4]/10000) display.print("F");
         else display.print("f");}
   if (editsection==9 and editmode and timer0_millis%2000>1000) display.print("-");
-  else {if (a[5]) display.print("S");
+  else {if (alarms[5]/10000) display.print("S");
         else display.print("s");}
   if (editsection==10 and editmode and timer0_millis%2000>1000) display.print("- #-----\n");
-  else {if (a[6]) display.print("S #-----\n");
+  else {if (alarms[6]/10000) display.print("S #-----\n");
         else display.print("s #-----\n");}
 
     if (editmode) {if (editsection==25) display.print(">ok.\n");
    else display.print(" ok?\n");}display.print(timer0_millis);
-
+  display.display();
   }
 
- //milisecond delay
   int format=0; // 0=24C 1=24F 2=12C 3=12F
   int editsection=0;
   int temperature=0;
@@ -155,6 +154,7 @@ else {
   int alarms[]={00000,00000,00000,00000,00000,00000,00000}; // OHHMM ON/OFF, HOUR, MINUTE
 
 void setup() {
+  dht11g.setDelay(10);
   pinMode(11,OUTPUT); //buzzer pin
   pinMode(10,INPUT); //sol butonpin
   pinMode(9,INPUT); //sağ buton
@@ -260,9 +260,8 @@ void loop() {
   }
   butonl=digitalRead(10);butonr=digitalRead(9);
   maindisplay(temperature,humidity,format,editmode,editsection,alarms);
-  
-  display.display();
-  dht11.readTemperatureHumidity(temperature, humidity);
+  if (timer0_millis%500<65) dht11g.readTemperatureHumidity(temperature, humidity);
+
   if (timer0_millis>1209600000UL) timer0_millis = timer0_millis - 1209600000UL;
 }
 
