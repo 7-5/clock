@@ -116,7 +116,7 @@ else {
    else display.print("  \n");
 
 
-  }
+  }else if(editmode) display.print("Alarm editing:\n");
 
 
 // satır 7, 8:
@@ -274,7 +274,7 @@ void loop() {
 	else v=timer0_millis%604800000-alarmtotime(alarms[i],i)%604800000;
 	if (v>302400000) j=v-302400000;
 	else j=302400000-v;
-	if (j>302400000-180000) cnt=1;}}                                                     
+	if (j>302400000-30000) cnt=1;}}           
   if (cnt) digitalWrite(11,1);
   else digitalWrite(11,0);
 }
