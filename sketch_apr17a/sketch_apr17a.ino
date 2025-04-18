@@ -11,6 +11,9 @@ Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 DHT11 dht11g(2); 
 extern volatile unsigned long timer0_millis;
 
+unsigned long alarmtotime(unsigned long x,int day){
+  return day*86400000+ (x%10000)/100*3600000 + x%100*60000;
+}
 
 void maindisplay(int temperature,int humidity,int format,int editmode,int editsection,int alarms[]){
     display.clearDisplay();
@@ -25,19 +28,19 @@ display.print("\n\n");
   //satır 3:
   display.print("Time: ");
   //hr 
- if (editsection==0 and editmode and timer0_millis%2000>1000) display.print("--");
+ if (editsection==0 and editmode and timer0_millis%1000<500) display.print("--");
 else {
    if (t%(86400000/(1+format/2))/3600000<10) {display.print("0");display.print(t%(86400000/(1+format/2))/3600000);}
    else display.print(t%(86400000/(1+format/2))/3600000);}
     display.print(":");
   //min
- if (editsection==1 and editmode and timer0_millis%2000>1000) display.print("--");
+ if (editsection==1 and editmode and timer0_millis%1000<500) display.print("--");
 else {
    if (t%3600000/60000<10) {display.print("0");display.print(t%3600000/60000);}
    else display.print(t%3600000/60000);}
     display.print(":");
   //sec
- if (editsection==2 and editmode and timer0_millis%2000>1000) display.print("--");
+ if (editsection==2 and editmode and timer0_millis%1000<500) display.print("--");
 else {
    if (t%60000/1000<10) {display.print("0");display.print(t%60000/1000);}
    else display.print(t%60000/1000);}
@@ -46,7 +49,7 @@ else {
     if (t%86400000/3600000>11) display.print("PM ");
     else display.print("AM ");
    }else display.print("   ");
-  if (editsection==3 and editmode and timer0_millis%2000>1000) display.print("--\n");
+  if (editsection==3 and editmode and timer0_millis%1000<500) display.print("--\n");
   else {switch(t%604800000/86400000) {
   case 0:
   display.print("Mo\n");
@@ -90,51 +93,53 @@ else {
   display.print(humidity);display.print("%\n\n");
   
 //  satır 6:
-//Alarm: 10:51 AM Mo   #
+//Alarm: 10:51 AM   #
   if(!editmode){display.print("Alarms:\n");}
-  else{display.print("Alarm: ");
+  if(editmode and (editsection>10 and editsection<25)){display.print("Alarm: ");
   //hr 
- if (editsection>10 and editsection<18 and editmode and timer0_millis%2000>1000) display.print("--");
+ if (editsection>10 and editsection<18 and timer0_millis%1000<500) display.print("--");
 else {
-   if (t%(86400000/(1+format/2))/3600000<10) {display.print("0");display.print(t%(86400000/(1+format/2))/3600000);}
-   else display.print(t%(86400000/(1+format/2))/3600000);}
+   if (alarmtotime(alarms[(editsection+3)%7],(editsection+3)%7)%(86400000/(1+format/2))/3600000<10) {display.print("0");display.print(alarmtotime(alarms[(editsection+3)%7],(editsection+3)%7)%(86400000/(1+format/2))/3600000);}
+   else display.print(alarmtotime(alarms[(editsection+3)%7],(editsection+3)%7)%(86400000/(1+format/2))/3600000);}
     display.print(":");
   //min
- if (editsection>17 and editsection<25 and editmode and timer0_millis%2000>1000) display.print("--");
+ if (editsection>17 and editsection<25 and timer0_millis%1000<500) display.print("--");
 else {
-   if (t%3600000/60000<10) {display.print("0");display.print(t%3600000/60000);}
-   else display.print(t%3600000/60000);}
+   if (alarmtotime(alarms[(editsection+3)%7],(editsection+3)%7)%3600000/60000<10) {display.print("0");display.print(alarmtotime(alarms[(editsection+3)%7],(editsection+3)%7)%3600000/60000);}
+   else display.print(alarmtotime(alarms[(editsection+3)%7],(editsection+3)%7)%3600000/60000);}
    display.print(" ");
    if (format/2) { 
-    if (t%86400000/3600000>11) display.print("PM\n");
+    if (alarmtotime(alarms[(editsection+3)%7],(editsection+3)%7)%86400000/3600000>11) display.print("PM\n");
     else display.print("AM\n");
-   }else display.print("  \n");
+   }
+   
+   else display.print("  \n");
 
 
   }
 
 
 // satır 7, 8:
-//(3<editsection and editsection<11 and editmode and timer0_millis%2000>1000) display.print("--");
-  if (editsection==4 and editmode and timer0_millis%2000>1000) display.print("-----# -");
+//(3<editsection and editsection<11 and editmode and timer0_millis%1000<500) display.print("--");
+  if (editsection==4 and editmode and timer0_millis%1000<500) display.print("-----# -");
   else {if (alarms[0]/10000) display.print("-----# M");
         else display.print("-----# m");}
-  if (editsection==5 and editmode and timer0_millis%2000>1000) display.print("-");
+  if (editsection==5 and editmode and timer0_millis%1000<500) display.print("-");
   else {if (alarms[1]/10000) display.print("T");
         else display.print("t");}
-  if (editsection==6 and editmode and timer0_millis%2000>1000) display.print("-");
+  if (editsection==6 and editmode and timer0_millis%1000<500) display.print("-");
   else {if (alarms[2]/10000) display.print("W");
         else display.print("w");}
-  if (editsection==7 and editmode and timer0_millis%2000>1000) display.print("-");
+  if (editsection==7 and editmode and timer0_millis%1000<500) display.print("-");
   else {if (alarms[3]/10000) display.print("T");
         else display.print("t");}
-  if (editsection==8 and editmode and timer0_millis%2000>1000) display.print("-");
+  if (editsection==8 and editmode and timer0_millis%1000<500) display.print("-");
   else {if (alarms[4]/10000) display.print("F");
         else display.print("f");}
-  if (editsection==9 and editmode and timer0_millis%2000>1000) display.print("-");
+  if (editsection==9 and editmode and timer0_millis%1000<500) display.print("-");
   else {if (alarms[5]/10000) display.print("S");
         else display.print("s");}
-  if (editsection==10 and editmode and timer0_millis%2000>1000) display.print("- #-----\n");
+  if (editsection==10 and editmode and timer0_millis%1000<500) display.print("- #-----\n");
   else {if (alarms[6]/10000) display.print("S #-----\n");
         else display.print("s #-----\n");}
 
@@ -260,8 +265,18 @@ void loop() {
   butonl=digitalRead(10);butonr=digitalRead(9);
   maindisplay(temperature,humidity,format,editmode,editsection,alarms);
   if (timer0_millis%3000<400 and timer0_millis%3000>290 ) dht11g.readTemperatureHumidity(temperature, humidity);
-
   if (timer0_millis>1209600000UL) timer0_millis = timer0_millis - 1209600000UL;
+  int cnt=0;
+  unsigned long v,j;
+  for (unsigned long i=0; i<7;i++){
+    if (alarms[i]/10000){
+	if (alarmtotime(alarms[i],i)%604800000>timer0_millis%604800000) v=alarmtotime(alarms[i],i)%604800000- timer0_millis%604800000;
+	else v=timer0_millis%604800000-alarmtotime(alarms[i],i)%604800000;
+	if (v>302400000) j=v-302400000;
+	else j=302400000-v;
+	if (j>302400000-180000) cnt=1;}}                                                     
+  if (cnt) digitalWrite(11,1);
+  else digitalWrite(11,0);
 }
 
 // week 604800000
