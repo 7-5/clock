@@ -1,5 +1,5 @@
-# clock
- alarm clock on arduino for a school course project, inspired by casio watches. user documentation is below, i just have to flex my memory. 
+# Arduino Alarm Clock
+ alarm clock on arduino for a school course project with temperature and humidity sensor, inspired by casio watches. user documentation is below, i just have to flex my memory. 
  
  i built the electronics first, and then coded it from what i planned on my mind. didnt need to adjust anything in electronics in the coding stage, also didnt even pay for anything news and some are scrap parts. my friends were impressed at how i implemented it solo. i mean i dont wanna be that guy, i get that i have great memory too, but our past curriculum included good courses on c/c++, dsa and analysis, electronics, software development architecture so i think its still doable with maybe doing diagrams too? idk. 
  
@@ -22,5 +22,9 @@ this sketch edited to fit what i have as hardware, the dht11 sensor is actually 
  buttons need higher resistances, a book i use suggests 10k ohm resistances for buttons on 5V but i just didnt have sufficient, i could easily parallel wire but i dont want the resistances exposed with their long legs, i dont want to cut them because i have limited electronics, i also dont want them touching. if you know me in real life and have the means to do so, PLEASE DONATE ME ELECTRONICS I BEG YOU I WILL DO ANYTHING. (im a skeptical buyer i dont even purchase things online. (i also dont possess much money, also no cypto curengcy (typed funny to not get attention of scrapers made by evil people. (maybe github is a mistake)))) anyhow if you have them you can put 10k resistors, if not, only down side i saw from low resistance for buttons is, on another project, the buttons were more prone to noise and errors from magnetic fields, idk if that's related to it or not, probably is.
  
  be careful which dht11 library you use or you will have problems. its repo is provided by a comment next to the header for it.
+
+ feel free to open an issue, i will read it.
+
 ## License
  This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+ 
