@@ -4,7 +4,13 @@
 #include <Wire.h> // enables i2c communication 
 #include <Adafruit_GFX.h> // adafruit library for drawing text, shapes etc.
 #include <Adafruit_SSD1306.h> // screen driver. i dont know if what i have is an ssd1306, my code has some weirdnesses, the tutorial i followed on getting the hardware to run had different labeled pins.
-#include <DHT11.h> //
+#include <DHT11.h> // https://github.com/dhrubasaha08/DHT11 2.1.0. its at arduino ide library manager too.
+/* other libraries i have include: (from library manager again)
+- LiquidCrystal by Arduino, Adafruit (probably not required)
+- Adafruit BusIO, by Adafruit
+- Adafruit GFX Library by Adafruit
+- Adafruit SSD1306 by Adafruit
+*/
 #define OLED_RESET -1 /// Reset pin # (or -1 if sharing Arduino reset pin). 
 // comment is copied from the example of adafruit, this might be related to breaking that bridge thing from your arduino, unsure if it was about reset or oscillator, dont do that if you dont know what you are doing.
 // the tutorial i followed had shown this also at the value 4. my memory may not be that good, i dont remember it affecting it.
