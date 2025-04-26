@@ -1,7 +1,7 @@
 # Arduino Alarm Clock
  alarm clock on arduino for a school course project with temperature and humidity sensor, inspired by casio watches UI (this project fits more to a table clock). user documentation is below.
  
- i built the electronics first, and then coded it from what i planned on my mind. didnt need to adjust anything in electronics in the coding stage, also didnt even pay for any new electronics and some are just scrap parts. 
+ i built the electronics first, and then coded it from what i planned on my mind. didnt need to adjust anything in electronics in the coding stage, also didnt even pay for any new electronics and some are just scrap parts. the whole project spanning 300 lines of code was done in a night before a report was required. it was supposed to be asking how the project was going but i didnt feel like talking about a half done project and adding new promises so i done it all.
  
 ![[thesketch]](readmethings/fritzingsketchedited.png)
 
